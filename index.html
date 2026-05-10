@@ -19,6 +19,7 @@ fbq('track', 'PageView');
 src="https://www.facebook.com/tr?id=1293252442349963&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>【內部推薦】吊車大王 60 歲依然強悍的秘密</title>
@@ -44,9 +45,9 @@ src="https://www.facebook.com/tr?id=1293252442349963&ev=PageView&noscript=1"
 <body class="py-6 px-4">
 
     <header class="text-center mb-6">
-       <div class="inline-block border-4 border-red-600 text-red-600 px-5 py-2 text-lg font-black mb-2 animate-pulse">
-    非公開：僅限內測成員觀看
-</div>
+        <div class="inline-block border-4 border-red-600 text-red-600 px-5 py-2 text-lg font-black mb-2 animate-pulse">
+            非公開：僅限內測成員觀看
+        </div>
         <h1 class="text-xl font-black text-yellow-500 italic leading-tight">竹北吊車大王親自揭秘：<br>60 歲依然「剛強持久」的私藏方？</h1>
     </header>
 
@@ -58,6 +59,7 @@ src="https://www.facebook.com/tr?id=1293252442349963&ev=PageView&noscript=1"
         </div>
     </div>
 
+    <!-- 展開按鈕區塊 -->
     <div id="btn-reveal" class="hidden mt-8 text-center px-4">
         <div class="text-yellow-500 text-4xl animate-bounce mb-2">▼▼▼</div> 
         <button onclick="revealForm()" class="w-full max-w-[400px] gold-btn radar-btn text-black font-black py-7 rounded-2xl text-2xl">
@@ -65,6 +67,7 @@ src="https://www.facebook.com/tr?id=1293252442349963&ev=PageView&noscript=1"
         </button>
     </div>
 
+    <!-- 表單區塊 -->
     <div id="order-form-container" class="mt-12 max-w-[420px] mx-auto bg-zinc-900 border-2 border-yellow-500 p-6 rounded-[40px] shadow-2xl">
         <div class="text-center mb-8">
             <h2 class="text-yellow-500 text-2xl font-black italic mb-4">霸王養精蓄力丹</h2>
@@ -73,10 +76,11 @@ src="https://www.facebook.com/tr?id=1293252442349963&ev=PageView&noscript=1"
             <div class="text-yellow-500 text-5xl font-black mt-1">NT$ 1398</div>
         </div>
         
-        <form id="googleForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdk2rhsOoaI5D51BYPF4nJihD_WaxOo7mwb0Mh6Dv6PrePNjQ/formResponse" method="POST" target="hidden_iframe" onsubmit="handleFormSubmit()">
+        <form id="googleForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSdk2rhsOoaI5D51BYPF4nJihD_WaxOo7mwb0Mh6Dv6PrePNjQ/formResponse" method="POST" target="hidden_iframe" onsubmit="return handleFormSubmit()">
             <input type="text" name="entry.516211201" placeholder="您的姓名" required class="w-full p-4 rounded-xl mb-4 bg-white text-black text-xl font-bold">
             <input type="tel" inputmode="numeric" pattern="[0-9]*" name="entry.1762877689" placeholder="聯絡電話" required class="w-full p-4 rounded-xl mb-6 bg-white text-black text-xl font-bold">
             
+            <!-- IP 地址隱藏域 -->
             <input type="hidden" id="ip_address" name="entry.1005513444" value="">
             
             <button type="submit" class="w-full gold-btn text-black font-black py-6 rounded-2xl text-2xl">提交申請・立即重啟</button>
@@ -95,10 +99,12 @@ src="https://www.facebook.com/tr?id=1293252442349963&ev=PageView&noscript=1"
         var submitted = false;
         var triggered = false;
 
+        // 獲取 IP
         fetch('https://api.ipify.org?format=json').then(r => r.json()).then(data => {
             document.getElementById('ip_address').value = data.ip;
         });
 
+        // 播放器初始化
         var player = new Aliplayer({
             id: "player-container",
             source: "https://dailytw.store/bwvsl.mp4",
@@ -108,11 +114,13 @@ src="https://www.facebook.com/tr?id=1293252442349963&ev=PageView&noscript=1"
         const guide = document.getElementById('click-guide');
         const guideText = document.getElementById('guide-text');
 
+        // 點擊開始播放
         guide.onclick = function() {
             player.play();
             this.style.display = 'none';
         };
 
+        // 監聽播放時間顯示按鈕
         player.on('timeupdate', function() {
             if (player.getCurrentTime() >= 50 && !triggered) {
                 document.getElementById('btn-reveal').classList.remove('hidden');
@@ -121,33 +129,38 @@ src="https://www.facebook.com/tr?id=1293252442349963&ev=PageView&noscript=1"
             }
         });
 
+        // 按鈕點擊函數 (AddToCart)
         function revealForm() {
-            player.pause();
-            // 這裡只觸發 AddToCart
-            fbq('track', 'AddToCart');
+            // 強制優先發送像素事件
+            if (typeof fbq === 'function') {
+                fbq('track', 'AddToCart');
+            }
             
+            player.pause();
             guideText.innerText = "點擊繼續觀看"; 
             guide.style.display = 'flex'; 
+            
             const form = document.getElementById('order-form-container');
             form.classList.add('show-order');
             form.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-       function handleFormSubmit() {
-    // 1. 触发 FB 发起结账事件
-    fbq('track', 'InitiateCheckout', {
-        content_name: '霸王養精蓄力丹',
-        value: 1398,
-        currency: 'TWD'
-    });
+        // 表單提交函數 (InitiateCheckout)
+        function handleFormSubmit() {
+            // 強制優先發送像素事件
+            if (typeof fbq === 'function') {
+                fbq('track', 'InitiateCheckout', {
+                    content_name: '霸王養精蓄力丹',
+                    value: 1398,
+                    currency: 'TWD'
+                });
+            }
 
-    // 2. 标记提交状态，让 iframe 的 onload 逻辑知道可以跳转成功页了
-    submitted = true;
-    
-    // 3. 返回 true 让表单正常提交到 Google Form
-    return true;
-}
+            submitted = true;
+            return true; // 允許表單提交至 Google Form
+        }
 
+        // 評論數據
         const reviewData = [
             {n:"王老哥 (62歲, 台北)", t:"以前晚上老婆總是不滿意，用了這個兩週，現在換她叫我休息。"},
             {n:"陳先生 (58歲, 竹北)", t:"跟著吊車大王買不會錯，體力真的感覺年輕了二十歲！"},
