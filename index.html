@@ -123,13 +123,17 @@
             form.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function handleFormSubmit() {
-            if (typeof fbq === 'function') {
-                fbq('track', 'InitiateCheckout', { content_name: '霸王養精蓄力丹', value: 1398, currency: 'TWD' });
-            }
-            window.submitted = true;
-            return true;
-        }
+       function handleFormSubmit() {
+    if (typeof fbq === 'function') {
+        // 移除 content_name，只保留系統最關心的價值與幣種
+        fbq('track', 'InitiateCheckout', { 
+            value: 1398, 
+            currency: 'TWD' 
+        });
+    }
+    window.submitted = true;
+    return true;
+}
 
         const reviewData = [
             {n:"王老哥 (62歲, 台北)", t:"以前晚上老婆總是不滿意，用了這個兩週，現在換她叫我休息。"},
