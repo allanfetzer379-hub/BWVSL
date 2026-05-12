@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '3060408614146013');
-  fbq('track', 'PageView');
-  // 在此頁面回傳購物事件
-  fbq('track', 'Purchase', {
-    value: 1398.00,
-    currency: 'TWD'
-  });
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>訂購成功 - 霸王丹官方中心</title>
+    <title>訂購成功 - 官方中心</title>
+    
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+
+    fbq('init', '1393718095848403');
+    
+    // 關閉自動抓取，防止 FB 機器人分析此頁面結構
+    fbq('set', 'autoConfig', false, '1393718095848403');
+    
+    fbq('track', 'PageView');
+
+    // 觸發購物事件
+    // 如果 Purchase 還是發不出去，可以暫時改為 'Lead'
+    fbq('track', 'Purchase', {
+        value: 1398.00,
+        currency: 'TWD'
+    });
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 flex items-center justify-center min-h-screen p-6 text-center">
@@ -37,7 +45,7 @@
             <p>● 支持貨到付款，安全放心</p>
             <p>● 請保持電話通暢</p>
         </div>
-        <p class="mt-10 text-gray-400">霸王養精蓄力丹管理中心</p>
+        <p class="mt-10 text-gray-400">管理中心</p>
     </div>
 </body>
 </html>
